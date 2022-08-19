@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+    name: Build and test
+    runs-on: ubuntu-latest
+    matrix:
+        features: ["", "--features build-libinterpret"]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install OCaml
+      run: sudo apt install -y ocaml-nox ocamlbuild ocaml-findlib libzarith-ocaml-dev
+    - name: Build
+      run: cargo build -vv ${{ matrix.features }}
+    - name: Run tests
+      run: cargo test -vv ${{ matrix.features }}
+
+  format:
+    name: Check code format
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - run: rustup component add rustfmt
+    - run: cargo fmt --all -- --check
+
+  deny:
+    name: Check Rust dependencies
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: EmbarkStudios/cargo-deny-action@v1
