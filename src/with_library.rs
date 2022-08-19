@@ -107,10 +107,9 @@ mod tests {
     fn oob() {
         let module = wat::parse_file("tests/oob.wat").unwrap();
         let results = interpret(&module, None);
-        assert_eq!(
-            results,
-            Err("Error(_, \"(Isabelle) trap: load\")".to_string())
-        );
+        assert!(results
+            .unwrap_err()
+            .contains("Error(_, \"(Isabelle) trap: load\")"));
     }
 
     #[test]
