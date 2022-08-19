@@ -1,0 +1,15 @@
+# Documentation for this configuration file can be found here:
+# https://embarkstudios.github.io/cargo-deny/checks/cfg.html
+
+# See https://embarkstudios.github.io/cargo-deny/checks/licenses/cfg.html.
+[licenses]
+allow = [
+    "Apache-2.0",
+    "Apache-2.0 WITH LLVM-exception",
+    "MIT"
+]
+
+# See https://embarkstudios.github.io/cargo-deny/checks/bans/cfg.html.
+[bans]
+multiple-versions = "deny"
+wildcards = "deny"
